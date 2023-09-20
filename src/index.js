@@ -1,4 +1,5 @@
 const express = require("express");
+var bodyParser = require("body-parser");
 const morgan = require("morgan");
 const handlebars = require("express-handlebars");
 const path = require("path");
@@ -22,11 +23,16 @@ app.engine(
   })
 );
 app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "resources/views"));
+app.set("views", path.join(__dirname, "resources", "views"));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
+//body-parser no lam cho res.json(req.body); o CourseController hien thi object
+// parse application/json
+app.use(bodyParser.json());
 //Routes init
 route(app);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });
